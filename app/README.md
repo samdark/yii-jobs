@@ -1,1 +1,0 @@
-Project source will be located here.
