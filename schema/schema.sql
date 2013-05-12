@@ -14,8 +14,8 @@ CREATE  TABLE IF NOT EXISTS `user` (
   `email` VARCHAR(225) NOT NULL COMMENT 'User email' ,
   `password` CHAR(64) NOT NULL COMMENT 'Password hash' ,
   `salt` CHAR(64) NOT NULL COMMENT 'Salt for security purposes' ,
-  `created_at` TIMESTAMP NOT NULL DEFAULT NOW() COMMENT 'User created timestamp' ,
-  `updated_at` TIMESTAMP NOT NULL COMMENT 'User updated timestamp' ,
+  `created_at` INT NOT NULL DEFAULT NOW() COMMENT 'User created timestamp' ,
+  `updated_at` INT NOT NULL COMMENT 'User updated timestamp' ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
@@ -54,8 +54,8 @@ DROP TABLE IF EXISTS `role` ;
 CREATE  TABLE IF NOT EXISTS `role` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `name` INT NOT NULL COMMENT 'Role name' ,
-  `created_at` TIMESTAMP NOT NULL DEFAULT NOW() ,
-  `updated_at` TIMESTAMP NOT NULL ,
+  `created_at` INT NOT NULL DEFAULT NOW() ,
+  `updated_at` INT NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
@@ -85,8 +85,8 @@ CREATE  TABLE IF NOT EXISTS `job` (
   `tags` VARCHAR(255) NOT NULL COMMENT 'Tags list\n' ,
   `price` FLOAT NOT NULL COMMENT 'price' ,
   `expires` TIMESTAMP NOT NULL COMMENT 'Expiration date' ,
-  `created_at` TIMESTAMP NOT NULL DEFAULT NOW() ,
-  `updated_at` TIMESTAMP NOT NULL ,
+  `created_at` INT NOT NULL DEFAULT NOW() ,
+  `updated_at` INT NOT NULL ,
   `status` TINYINT UNSIGNED NOT NULL COMMENT 'Job status.' ,
   `author_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
