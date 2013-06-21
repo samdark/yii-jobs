@@ -23,11 +23,11 @@ CREATE UNIQUE INDEX `email_UNIQUE` ON `user` (`email` ASC) ;
 
 
 -- -----------------------------------------------------
--- Table `user_properties`
+-- Table `user_profile`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `user_properties` ;
+DROP TABLE IF EXISTS `user_profile` ;
 
-CREATE  TABLE IF NOT EXISTS `user_properties` (
+CREATE  TABLE IF NOT EXISTS `user_profile` (
   `user_id` INT NOT NULL COMMENT 'User ID' ,
   `surname` VARCHAR(45) NOT NULL COMMENT 'User Surname' ,
   `icq` VARCHAR(45) NOT NULL COMMENT 'User ICQ number\n' ,
@@ -43,7 +43,7 @@ CREATE  TABLE IF NOT EXISTS `user_properties` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `user_idx` ON `user_properties` (`user_id` ASC) ;
+CREATE INDEX `user_idx` ON `user_profile` (`user_id` ASC) ;
 
 
 -- -----------------------------------------------------
