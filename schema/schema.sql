@@ -12,10 +12,9 @@ CREATE  TABLE IF NOT EXISTS `user` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NOT NULL COMMENT 'User name (nickname, etc)' ,
   `email` VARCHAR(225) NOT NULL COMMENT 'User email' ,
-  `password` CHAR(64) NOT NULL COMMENT 'Password hash' ,
-  `salt` CHAR(64) NOT NULL COMMENT 'Salt for security purposes' ,
-  `created_at` INT NOT NULL DEFAULT NOW() COMMENT 'User created timestamp' ,
-  `updated_at` INT NOT NULL COMMENT 'User updated timestamp' ,
+  `password_hash` VARCHAR NOT NULL COMMENT 'Password hash',
+  `create_time` INT NOT NULL COMMENT 'User created timestamp' ,
+  `update_time` INT NOT NULL COMMENT 'User updated timestamp' ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
@@ -52,23 +51,11 @@ CREATE INDEX `user_idx` ON `user_profile` (`user_id` ASC) ;
 DROP TABLE IF EXISTS `role` ;
 
 CREATE  TABLE IF NOT EXISTS `role` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` INT NOT NULL COMMENT 'Role name' ,
-  `created_at` INT NOT NULL DEFAULT NOW() ,
-  `updated_at` INT NOT NULL ,
+  `create_time` INT NOT NULL DEFAULT NOW() ,
+  `update_time` INT NOT NULL ,
   PRIMARY KEY (`id`) )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `job_properties`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `job_properties` ;
-
-CREATE  TABLE IF NOT EXISTS `job_properties` (
-  `job_id` INT NOT NULL ,
-  `descripton_long` TEXT NOT NULL COMMENT 'Long job description' ,
-  PRIMARY KEY (`job_id`) )
 ENGINE = InnoDB;
 
 
@@ -81,7 +68,7 @@ CREATE  TABLE IF NOT EXISTS `job` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `title` VARCHAR(255) NOT NULL COMMENT 'Job title' ,
   `type` ENUM('fulltime','contract','freelance') NOT NULL COMMENT 'Job type' ,
-  `description_short` VARCHAR(1024) NOT NULL COMMENT 'Job short description. Full text is stored separately.' ,
+  `description` VARCHAR(1024) NOT NULL COMMENT 'Job short description. Full text is stored separately.' ,
   `tags` VARCHAR(255) NOT NULL COMMENT 'Tags list\n' ,
   `price` FLOAT NOT NULL COMMENT 'price' ,
   `expires` TIMESTAMP NOT NULL COMMENT 'Expiration date' ,
@@ -140,9 +127,8 @@ CREATE  TABLE IF NOT EXISTS `job_tag` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_job_has_tag_tag1_idx` ON `job_tag` (`tag_id` ASC) ;
-
-CREATE INDEX `fk_job_has_tag_job1_idx` ON `job_tag` (`job_id` ASC) ;
+CREATE INDEX `fk_job_has_tag_tag1_idx` ON `job_tag` (`tag_id` ASC);
+CREATE INDEX `fk_job_has_tag_job1_idx` ON `job_tag` (`job_id` ASC);
 
 
 -- -----------------------------------------------------
@@ -166,9 +152,8 @@ CREATE  TABLE IF NOT EXISTS `user_role` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_user_has_role_role1_idx` ON `user_role` (`role_id` ASC) ;
-
-CREATE INDEX `fk_user_has_role_user1_idx` ON `user_role` (`user_id` ASC) ;
+CREATE INDEX `fk_user_has_role_role1_idx` ON `user_role` (`role_id` ASC);
+CREATE INDEX `fk_user_has_role_user1_idx` ON `user_role` (`user_id` ASC);
 
 
 
