@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `role` ;
 
 CREATE  TABLE IF NOT EXISTS `role` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` INT NOT NULL COMMENT 'Role name' ,
+  `name` VARCHAR(255) NOT NULL COMMENT 'Role name' ,
   `create_time` INT NOT NULL DEFAULT NOW() ,
   `update_time` INT NOT NULL ,
   PRIMARY KEY (`id`) )
