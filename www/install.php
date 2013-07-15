@@ -1,6 +1,6 @@
 <?php
 /*
- * Yeeki application installer
+ * Yii-jobs application installer
  */
 
 $yii=dirname(dirname(__FILE__)).'/framework/yii.php';
@@ -20,8 +20,8 @@ $runner=new CConsoleCommandRunner();
 $runner->commands=array(
 	'migrate' => array(
 		'class' => 'system.cli.commands.MigrateCommand',
-		'migrationPath' => 'application.modules.wiki.migrations',
-		'migrationTable' => 'wiki_migration',
+		'migrationPath' => 'application.modules.jobs.migrations',
+		'migrationTable' => 'jobs_migration',
 		'interactive' => false,
 	),
 );
