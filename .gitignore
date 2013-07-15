@@ -16,3 +16,4 @@ Thumbs.db
 framework
 app/runtime
 www/assets
+.DS_Store
