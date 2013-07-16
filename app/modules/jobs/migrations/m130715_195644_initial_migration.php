@@ -40,6 +40,7 @@ class m130715_195644_initial_migration extends CDbMigration
 			'title' => 'string',
 			'type' => "ENUM('fulltime','contract','freelance')",
 			'description' => 'text',
+			'text' => 'text',
 			'tags' => 'string',
 			'price' => 'float',
 			'expires' => 'timestamp',
@@ -50,7 +51,6 @@ class m130715_195644_initial_migration extends CDbMigration
 		), 'ENGINE=InnoDB');
 
 		$this->addForeignKey('fk_Job_User1', 'jobs_job', 'author_id', 'jobs_user', 'id', 'NO ACTION');
-		$this->addForeignKey('fk_Job_properties1', 'jobs_job', 'id', 'jobs_job_properties', 'job_id', 'CASCADE', 'NO ACTION');
 		$this->createIndex('fk_Job_User1_idx', 'jobs_job', 'author_id');
 
 		$this->createTable('jobs_tag', array(
@@ -85,7 +85,6 @@ class m130715_195644_initial_migration extends CDbMigration
 	{
 		$this->dropForeignKey('user', 'jobs_user_profile');
 		$this->dropForeignKey('fk_Job_User1', 'jobs_job');
-		$this->dropForeignKey('fk_Job_properties1', 'jobs_job');
 		$this->dropForeignKey('fk_job_has_tag_job1', 'jobs_job_tag');
 		$this->dropForeignKey('fk_job_has_tag_tag1', 'jobs_job_tag');
 		$this->dropForeignKey('fk_user_has_role_user1', 'jobs_user_role');
