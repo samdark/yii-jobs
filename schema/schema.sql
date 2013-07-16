@@ -53,7 +53,7 @@ DROP TABLE IF EXISTS `role` ;
 CREATE  TABLE IF NOT EXISTS `role` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL COMMENT 'Role name' ,
-  `create_time` INT NOT NULL DEFAULT NOW() ,
+  `create_time` INT NOT NULL ,
   `update_time` INT NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
@@ -72,7 +72,7 @@ CREATE  TABLE IF NOT EXISTS `job` (
   `tags` VARCHAR(255) NOT NULL COMMENT 'Tags list\n' ,
   `price` FLOAT NOT NULL COMMENT 'price' ,
   `expires` TIMESTAMP NOT NULL COMMENT 'Expiration date' ,
-  `created_at` INT NOT NULL DEFAULT NOW() ,
+  `created_at` INT NOT NULL ,
   `updated_at` INT NOT NULL ,
   `status` TINYINT UNSIGNED NOT NULL COMMENT 'Job status.' ,
   `author_id` INT NOT NULL ,
