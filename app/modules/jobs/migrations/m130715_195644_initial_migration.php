@@ -1,112 +1,67 @@
 <?php
-
 class m130715_195644_initial_migration extends CDbMigration
 {
 	public function up()
 	{
-		$this->createTable('jobs_user', array(
-			'id' => 'pk',
-			'name' => 'string',
-			'email' => 'string',
-			'password_hash' => 'string',
-			'created_at' => 'integer',
-			'updated_at' => 'integer',
-		), 'ENGINE=InnoDB');
+		// MySQL-specific table options. Adjust if you plan working with another DBMS
+		$tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
 
-		$this->createIndex('email_UNIQUE', 'jobs_user', 'email', true);
-
-		$this->createTable('jobs_user_profile', array(
-			'user_id' => 'pk',
-			'surname' => 'string',
+		$this->createTable('jobs_profile', array(
+			'user_id' => 'integer',
 			'icq' => 'string',
 			'skype' => 'string',
 			'jabber' => 'string',
 			'url' => 'string',
 			'company' => 'string',
-		), 'ENGINE=InnoDB');
+		), $tableOptions);
 
-		$this->addForeignKey('user', 'jobs_user_profile', 'user_id', 'jobs_user', 'id', 'CASCADE');
-		$this->createIndex('user_idx', 'jobs_user_profile', 'user_id');
-
-		$this->createTable('jobs_role', array(
-			'id' => 'pk',
-			'name' => 'string',
-			'created_at' => 'integer',
-			'updated_at' => 'integer',
-		), 'ENGINE=InnoDB');
+		$this->addForeignKey('fk-jobs_profile-user_id', 'jobs_profile', 'user_id', 'jobs_user', 'id', 'CASCADE');
 
 		$this->createTable('jobs_job', array(
 			'id' => 'pk',
 			'title' => 'string',
-			'type' => "ENUM('fulltime','contract','freelance')",
+			'type' => 'tinyint NOT NULL DEFAULT 10',
 			'description' => 'text',
-			'text' => 'text',
 			'tags' => 'string',
 			'price' => 'float',
-			'expires' => 'timestamp',
-			'created_at' => 'integer',
-			'updated_at' => 'integer',
-			'status' => 'tinyint UNSIGNED',
+			'price_from' => 'float',
+			'price_to' => 'float',
+			'expire_time' => 'integer',
+			'create_time' => 'integer',
+			'update_time' => 'integer',
+			'status' => 'tinyint NOT NULL DEFAULT 10',
 			'author_id' => 'integer',
-		), 'ENGINE=InnoDB');
+		), $tableOptions);
 
-		$this->addForeignKey('fk_Job_User1', 'jobs_job', 'author_id', 'jobs_user', 'id', 'NO ACTION');
-		$this->createIndex('fk_Job_User1_idx', 'jobs_job', 'author_id');
+		$this->addForeignKey('fk-jobs_job-author_id', 'jobs_job', 'author_id', 'jobs_user', 'id');
 
 		$this->createTable('jobs_tag', array(
 			'id' => 'pk',
-			'title' => 'string',
-		), 'ENGINE=InnoDB');
+			'name' => 'string',
+		), $tableOptions);
 
-		$this->createIndex('title_UNIQUE', 'jobs_tag', 'title', true);
+		$this->createIndex('idx-jobs_tag-name-unique', 'jobs_tag', 'name', true);
 
 		$this->createTable('jobs_job_tag', array(
 			'job_id' => 'integer',
 			'tag_id' => 'integer',
-		), 'ENGINE=InnoDB');
+			'PRIMARY KEY (job_id, tag_id)'
+		), $tableOptions);
 
-		$this->addForeignKey('fk_job_has_tag_job1', 'jobs_job_tag', 'job_id', 'jobs_job', 'id', 'CASCADE', 'NO ACTION');
-		$this->addForeignKey('fk_job_has_tag_tag1', 'jobs_job_tag', 'tag_id', 'jobs_tag', 'id', 'CASCADE', 'NO ACTION');
-		$this->createIndex('fk_job_has_tag_job1_idx', 'jobs_job_tag', 'job_id');
-		$this->createIndex('fk_job_has_tag_tag1_idx', 'jobs_job_tag', 'tag_id');
-
-		$this->createTable('jobs_user_role', array(
-			'user_id' => 'integer',
-			'role_id' => 'integer',
-		), 'ENGINE=InnoDB');
-
-		$this->addForeignKey('fk_user_has_role_user1', 'jobs_user_role', 'user_id', 'jobs_user', 'id', 'CASCADE', 'NO ACTION');
-		$this->addForeignKey('fk_user_has_role_role1', 'jobs_user_role', 'role_id', 'jobs_role', 'id', 'CASCADE', 'NO ACTION');
-		$this->createIndex('fk_user_has_role_user1_idx', 'jobs_user_role', 'user_id');
-		$this->createIndex('fk_user_has_role_role1_idx', 'jobs_user_role', 'role_id');
+		$this->addForeignKey('fk-jobs_job_tag-job_id', 'jobs_job_tag', 'job_id', 'jobs_job', 'id', 'CASCADE');
+		$this->addForeignKey('fk-jobs_job_tag-tag_id', 'jobs_job_tag', 'tag_id', 'jobs_tag', 'id', 'CASCADE');
 	}
 
 	public function down()
 	{
-		$this->dropForeignKey('user', 'jobs_user_profile');
-		$this->dropForeignKey('fk_Job_User1', 'jobs_job');
-		$this->dropForeignKey('fk_job_has_tag_job1', 'jobs_job_tag');
-		$this->dropForeignKey('fk_job_has_tag_tag1', 'jobs_job_tag');
-		$this->dropForeignKey('fk_user_has_role_user1', 'jobs_user_role');
-		$this->dropForeignKey('fk_user_has_role_role1', 'jobs_user_role');
+		$this->dropForeignKey('fk-jobs_profile-user_id', 'jobs_profile');
+		$this->dropForeignKey('fk-jobs_job-author_id', 'jobs_job');
+		$this->dropForeignKey('fk-jobs_job_tag-job_id', 'jobs_job_tag');
+		$this->dropForeignKey('fk-jobs_job_tag-tag_id', 'jobs_job_tag');
 
-		$this->dropTable('jobs_user');
-		$this->dropTable('jobs_user_profile');
-		$this->dropTable('jobs_role');
+		$this->dropTable('jobs_profile');
 		$this->dropTable('jobs_job');
 		$this->dropTable('jobs_tag');
 		$this->dropTable('jobs_job_tag');
-		$this->dropTable('jobs_user_role');
 	}
-
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
-
-	public function safeDown()
-	{
-	}
-	*/
 }
